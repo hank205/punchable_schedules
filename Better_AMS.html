@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Draggable, Moveable and Resizable DIV using jQuery</title>
+    
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        #divContainer, .divResize { 
+            border:dashed 1px #CCC; 
+            width:120px; 
+            height:40px; 
+            
+            /* padding:5px;
+            margin:5px; */
+            font:13px Arial; 
+            cursor:move; 
+            float:left;
+            
+            background-color: darkturquoise;
+            border-radius: 10px;
+        } 
+        
+        table th {
+          border-right: 1px solid black;
+          padding:0;
+          background-color: chocolate;
+          /*padding:5px;*/
+        }
+
+    </style>
+</head>
+<body>
+
+<input type="button"  id="btClickMe" value="Create more draggable DIV's" />
+<br><br>
+
+    <div id="container">
+        <table cellspacing="0">
+          <thead>
+            <tr>
+                <th style="width:120px;">day 1</th>
+                <th style="width:120px;">day 2</th>
+                <th style="width:120px;">day 3</th>
+                <th style="width:120px;">day 4</th>
+                <th style="width:120px;">day 5</th>
+            </tr>
+          </thead>
+        </table>
+        
+        <br>
+
+        <div class="divResize">
+            CCM Request XXX
+        </div>
+        
+        <br clear="all" />
+        
+        <div class="divResize">
+            PedHR Request XXX
+        </div>
+        
+    </div>
+</body>
+
+<script>
+    var element_pos = 0;    // POSITION OF THE NEWLY CREATED ELEMENTS.
+    var iCnt = 0;
+    $(document).ready(function() {
+
+        $(function() { $('#divContainer').draggable(); });
+        $(function() { $(".divResize").draggable({
+            grid: [ 121, 42 ]
+        })
+        .resizable({
+          minWidth: 50,
+          handles: "e, w",
+          grid: 120
+        
+        }); });
+
+        // CREATE MORE DIV, WITH 'ABSOLUTE' POSITIONING.
+        $('#btClickMe').click(function() {
+            var div = $('.divResize')[0]
+            var dynamic_div = $(document.createElement('div'))
+            .addClass('divResize')
+            /*.css({
+                border: '1px dashed', 
+                position: 'absolute', 
+                left: element_pos, 
+                top: $(div).height() + 80,
+                width: '120', 
+                height: '40', 
+                padding: '3', 
+                margin: '0',
+                'background-color': 'darkturquoise',
+                'border-radius': '10px',
+            });*/
+
+            element_pos = element_pos + $(div).width() + 20;
+
+            $(dynamic_div).append('New Request');
+            
+            // APPEND THE NEWLY CREATED DIV TO "divContainer".
+            $(dynamic_div).appendTo($('#container'))
+            .draggable({
+                grid: [ 121, 42 ]
+            })
+            .resizable({
+              minWidth: 50,
+              handles: "e, w",
+              grid: 120
+
+            });
+
+            iCnt = iCnt + 1;
+        });
+    });
+</script>
+</html>
